@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Square Web Payments SDK sandbox</title>
+<script src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 480px; margin: 40px auto; padding: 0 16px; }
+  #card { margin: 16px 0; }
+  button { padding: 12px 24px; font-size: 16px; }
+  pre { background: #f4f4f4; padding: 12px; overflow-x: auto; }
+</style>
+</head>
+<body>
+<h1>Square Web Payments SDK sandbox</h1>
+
+<div id="card"></div>
+<button id="pay">トークン発行</button>
+<pre id="out">結果がここに出ます</pre>
+
+<script type="module">
+// Square Developer Dashboard (Sandbox) の値に差し替える
+const APP_ID = 'sandbox-sq0idb-P2cf6bbVk-RBi0Wbfug8bQ';
+const LOCATION_ID = 'L7KJ8YGCXZ8A8';
+
+const out = document.getElementById('out');
+const payments = window.Square.payments(APP_ID, LOCATION_ID);
+const card = await payments.card();
+await card.attach('#card');
+
+document.getElementById('pay').onclick = async () => {
+  const result = await card.tokenize();
+  out.textContent = JSON.stringify(result, null, 2);
+};
+</script>
+</body>
+</html>
